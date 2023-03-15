@@ -1,0 +1,20 @@
+main {
+    height: 600px;
+    border: 1px solid;
+}
+
+.gameboard-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+}
+
+.boardpiece {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    border: 1px solid;
+}
