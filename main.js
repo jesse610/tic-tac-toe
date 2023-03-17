@@ -82,15 +82,15 @@ const checkWinner = (() => {
     const updatePossibilties = (arr) => {
         arr.forEach((spaceEl, index) => {
             if(spaceEl != "") {
-                for (let i = 0; i < possibilities.length; i++) {
+                for (let i = 0; i < checkWinner.possibilities.length; i++) {
                     for (let j = 0; j < 3; j++)
-                        if (index === possibilities[i][j]) {
-                            possibilities[i][j] = spaceEl
+                        if (index === checkWinner.possibilities[i][j]) {
+                            checkWinner.possibilities[i][j] = spaceEl
                         }
                 }
             }
         })
-        winner(possibilities)
+      winner(checkWinner.possibilities)
     }
 
     const winner = (arr) => {
@@ -103,15 +103,14 @@ const checkWinner = (() => {
                 gameController.player2.isWinner = true
                 gameController.player1.isWinner = false
                 displayWinner.updateWinnerDisplay(gameController.player2)
+            } else if (gameController.turnCount === 10 && i === 7 && gameController.player1.isWinner === undefined && gameController.player2.isWinner === undefined) {
+                displayWinner.updateWinnerDisplay(gameController.player2)
             }
         }
-
-        // if (gameController.turnCount === 10 && gameController.player1.isWinner === undefined && gameController.player2.isWinner === undefined) {
-        //     console.log('Tie!')
-        // }
     }
     return {
         winner,
+        possibilities,
         updatePossibilties
     }
 })()
@@ -126,8 +125,14 @@ const displayWinner = (() => {
     const updateWinnerDisplay = (player) => {
         if (player.isWinner === true && player.letter === 'x') {
             div.textContent = "Player 1 wins!"
+            playAgain.showPlayAgainBtn()
+            playAgain.replayGame()
         } else if (player.isWinner === true && player.letter === 'o') {
             div.textContent = "Player 2 wins!"
+            playAgain.showPlayAgainBtn()
+        } else if (gameController.turnCount === 10 && player.isWinner === undefined) {
+            div.textContent = "Tie!"
+            playAgain.showPlayAgainBtn()
         }
     }
 
@@ -137,3 +142,49 @@ const displayWinner = (() => {
 
 })()
 
+const playAgain = (() => {
+
+    const mainContainer = document.querySelector('main')
+    const div = document.createElement('div')
+    const btn = document.createElement('button')
+    btn.textContent = "PLAY AGAIN"
+    btn.setAttribute('id', 'play-again-btn')
+    div.appendChild(btn)
+
+    const showPlayAgainBtn = () => {
+        mainContainer.appendChild(div)
+    }
+
+    const replayGame = () => {
+        const playAgainBtn = document.querySelector('#play-again-btn')
+        playAgainBtn.addEventListener('click', function() {
+            Gameboard.board = ['', '', '',
+                               '', '', '',
+                               '', '', ''];
+            Gameboard.boardPieces.forEach((el, index) => {
+                Gameboard.boardPieces[index].textContent = '' 
+            })
+
+            gameController.turnCount = 1
+            gameController.player2.isWinner = undefined
+            gameController.player1.isWinner = undefined
+            checkWinner.possibilities = [
+                [0, 1, 2],
+                [0, 3, 6],
+                [0, 4, 8],
+                [1, 4, 7],
+                [2, 5, 8],
+                [2, 4, 6],
+                [3, 4, 5],
+                [6, 7, 8],
+            ]
+            console.log(Gameboard.boardPieces)
+            console.log(Gameboard.board)
+        })
+    }
+
+    return {
+        showPlayAgainBtn,
+        replayGame
+    }
+})()
