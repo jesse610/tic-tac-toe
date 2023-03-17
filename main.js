@@ -4,22 +4,9 @@ const Gameboard = (() => {
     const board = ['', '', '',
                    '', '', '',
                    '', '', ''];
-    
-    const boardContainer = document.querySelector('.gameboard-container')
-
-    for (let i = 0; i < 9; i++) {
-        const div = document.createElement('div')
-        div.classList.add('boardpiece')
-        boardContainer.appendChild(div)
-        div.textContent = board[i]
-        div.setAttribute('id', i)
-    }
-
-    const boardPieces = document.querySelectorAll('.boardpiece')
 
     return {
         board,
-        boardPieces
     }
 
 })();
@@ -186,5 +173,24 @@ const playAgain = (() => {
     return {
         showPlayAgainBtn,
         replayGame
+    }
+})()
+
+
+const displayController = (() => {
+    const boardContainer = document.querySelector('.gameboard-container')
+    const boardPieces = document.querySelectorAll('.boardpiece')
+
+    for (let i = 0; i < 9; i++) {
+        const div = document.createElement('div')
+        div.classList.add('boardpiece')
+        boardContainer.appendChild(div)
+        div.textContent = board[i]
+        div.setAttribute('id', i)
+    }
+
+    return {
+        boardContainer,
+        boardPieces
     }
 })()
