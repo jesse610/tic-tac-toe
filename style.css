@@ -7,13 +7,13 @@ header {
 }
 
 main {
-    border: 1px solid;
+
 }
 
 .gameboard-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 150px 150px 150px;
+    grid-template-rows: 150px 150px 150px;
     justify-content: center;
     align-items: center;
 }
@@ -22,9 +22,22 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 200px;
-    border: 1px solid;
+    height: 150px;
     font-size: 5rem;
+}
+
+.boardpiece:nth-child(2), 
+.boardpiece:nth-child(5),
+.boardpiece:nth-child(8)  {
+    border-right: 1px solid;
+    border-left: 1px solid;
+}
+
+.boardpiece:nth-child(4),
+.boardpiece:nth-child(5),
+.boardpiece:nth-child(6) {
+    border-bottom: 1px solid;
+    border-top: 1px solid;
 }
 
 .winner {
