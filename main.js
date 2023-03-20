@@ -68,6 +68,7 @@ const displayController = (() => {
 
     const playAgain = () => {
         const btnDiv = document.createElement('div')
+        btnDiv.classList.add('btn-container')
         const divWinner = document.querySelector('.winner')
         btnDiv.appendChild(btn)
         btn.setAttribute('id', 'play-again-btn');
