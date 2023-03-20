@@ -11,8 +11,8 @@ const gameBoard = (() => {
 
 })();
 
-const player = (letter, turn) => {
-    return {letter, turn}
+const player = (name, letter, turn) => {
+    return {name, letter, turn}
 }
 
 const counter = (() => {
@@ -30,19 +30,30 @@ const counter = (() => {
 })()
 
 const displayController = (() => {
+    const gametypeContainer = document.querySelector('.gametype')
+    const formContainer = document.querySelector('.form-container')
+    const playervsplayerBtn = document.querySelector('#playervsplayer-btn')
+    const playervsbotBtn = document.querySelector('#playervsbot-btn')
     const mainContainer = document.querySelector('main')
     const boardContainer = document.querySelector('.gameboard-container')
     const btn = document.createElement('button')
 
-    for (let i = 0; i < 9; i++) {
-        const div = document.createElement('div')
-        div.classList.add('boardpiece')
-        boardContainer.appendChild(div)
-        div.textContent = gameBoard.board[i]
-        div.setAttribute('id', i)
-    }
+    const gameType = (() => {
+        playervsplayerBtn.addEventListener('click', function() {
+            formContainer.classList.remove('hidden')
+            gametypeContainer.classList.add('hidden')
+        })
+    })()
 
-    const boardPieces = document.querySelectorAll('.boardpiece')
+    const makeBoard = () => {
+        for (let i = 0; i < 9; i++) {
+            const div = document.createElement('div')
+            div.classList.add('boardpiece')
+            boardContainer.appendChild(div)
+            div.textContent = gameBoard.board[i]
+            div.setAttribute('id', i)
+        }
+    }
 
     const updateBoard = () => {
         boardPieces.forEach((square, index) => square.textContent = gameBoard.board[index])
@@ -55,10 +66,10 @@ const displayController = (() => {
         const divWinner = document.querySelector('.winner')
 
         if (gameController.player1.isWinner === true) {
-            divWinner.textContent = "Player 1 wins!"
+            divWinner.textContent = `${gameController.player1.name} wins!`
             playAgain()
         } else if (gameController.player2.isWinner === true) {
-            divWinner.textContent = "Player 2 wins!"
+            divWinner.textContent = `${gameController.player2.name} wins!`
             playAgain()
         } else if (gameController.player1.isWinner === false && gameController.player2.isWinner === false) {
             divWinner.textContent = "Tie!"
@@ -84,17 +95,46 @@ const displayController = (() => {
         })
     }
 
+    makeBoard()
+    const boardPieces = document.querySelectorAll('.boardpiece')
+
     return {
         boardContainer,
         boardPieces,
+        gameType,
         updateBoard,
-        displayWinner
+        displayWinner,
+        makeBoard
     }
 })()
 
 const gameController = (() => {
-    const player1 = player('x', true)
-    const player2 = player('o', false)
+    const playervsplayerBtn = document.querySelector('#playervsplayer-btn')
+    const playervsbotBtn = document.querySelector('#playervsbot-btn')
+    const gametypeContainer = document.querySelector('.gametype')
+    const formContainer = document.querySelector('.form-container')
+    const form = document.querySelector('form')
+    const player1 = player('', 'x', true)
+    const player2 = player('', 'o', false)
+
+
+    const gameType = (() => {
+        playervsplayerBtn.addEventListener('click', function() {
+            formContainer.classList.remove('hidden')
+            gametypeContainer.classList.add('hidden')
+        })
+    })()
+
+    const formAction = (() => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault()
+            player1.name = document.querySelector('#player1').value
+            player2.name = document.querySelector('#player2').value
+            console.log(player1, player2)
+            formContainer.classList.add('hidden')
+            document.querySelector('.gameboard-container').classList.remove('hidden')
+        })
+    })()
 
     const switchTurns = () => {
         if (player1.turn === true) {
