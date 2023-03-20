@@ -17,20 +17,28 @@
     </header>
 
     <main>
-        
+
         <div class="gametype">
             <button id="playervsplayer-btn">Player vs Player</button>
             <button id="playervsbot-btn">Player vs Bot</button>
         </div>
 
-        <div class="">
-            <form action="#" method="post">
-                <label for="player1">Player 1 name: </label>
-                <input type="text" name="player1-name" id="player1">
+        <div class="hidden form-container">
+            <form action="#" method="post" id="playernames-form">
+                <div>
+                    <label for="player1">Player 1 name: </label>
+                    <input type="text" name="player1-name" id="player1" required>
+                </div>
 
-                <label for="player2">Player 2 name:</label>
-                <input type="text" name="player2-name" id="player2">
+                <div>
+                    <label for="player2">Player 2 name:</label>
+                    <input type="text" name="player2-name" id="player2" required>
+                </div>
             </form>
+
+            <div class="submit-btn-container">
+                <button id="submit-form-btn" type="submit" form="playernames-form">Let's play!</button>
+            </div>
         </div>
 
         <div class="hidden gameboard-container">
