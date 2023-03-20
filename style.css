@@ -91,6 +91,43 @@ header h1{
     background-color: #f59e0b;
 }
 
+.form-container {
+    /* display: flex; */
+    padding-top: 1rem;
+    font-size: 1.2rem;
+    font-weight: bold
+}
+
+.form-container > form {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+#player1, #player2 {
+    width: 50%;
+    font-size: 1rem;
+}
+
+.submit-btn-container {
+    text-align: center;
+    padding-top: 3rem;
+}
+
+#submit-form-btn {
+    text-align: center;
+    padding: 1rem;
+    border-style: none;
+    background-color: #d4d4d4;
+    cursor: pointer;
+    border-radius: 1rem;
+    font-size: 1.5rem;
+}
+
+#submit-form-btn:hover {
+    background-color: #f59e0b;
+}
+
 .hidden {
     display: none;
 }
