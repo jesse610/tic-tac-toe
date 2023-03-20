@@ -2,12 +2,25 @@
     box-sizing: border-box;
 }
 
-header {
-    text-align: center;
+html, body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Rubik';
+    height: 100vh;
 }
 
-main {
+header h1{
+    text-align: center;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    font-size: 2.5rem;
+    margin: 0;
+}
 
+.winner {
+    padding-bottom: 2rem;
+    text-align: center;
+    font-size: 2rem;
 }
 
 .gameboard-container {
@@ -29,18 +42,31 @@ main {
 .boardpiece:nth-child(2), 
 .boardpiece:nth-child(5),
 .boardpiece:nth-child(8)  {
-    border-right: 1px solid;
-    border-left: 1px solid;
+    border-right: 2px solid;
+    border-left: 2px solid;
 }
 
 .boardpiece:nth-child(4),
 .boardpiece:nth-child(5),
 .boardpiece:nth-child(6) {
-    border-bottom: 1px solid;
-    border-top: 1px solid;
+    border-bottom: 2px solid;
+    border-top: 2px solid;
 }
 
-.winner {
+.btn-container {
     text-align: center;
-    font-size: 2rem;
+    padding-top: 2rem;
+}
+
+#play-again-btn {
+    text-align: center;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    border-style: none;
+    background-color: #d4d4d4;
+    cursor: pointer;
+}
+
+#play-again-btn:hover {
+    background-color: #f59e0b;
 }
