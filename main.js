@@ -186,7 +186,7 @@ const gameController = (() => {
         player2.isBot = true
 
         const botsTurn = () => {
-
+            counter.countTurn()
             const chooseSpot = (() => {
                 let randomNum = Math.floor(Math.random() * 9)
 
@@ -250,6 +250,7 @@ const gameController = (() => {
 })()
 
 const winner = (() => {
+    let gameOver = false;
     const possibilities = [
         [0, 1, 2],
         [0, 3, 6],
@@ -265,20 +266,21 @@ const winner = (() => {
         for (let i = 0; i < possibilities.length; i++) {
             for (let j = 0; j < 1; j++) {
                 if (gameBoard.board[possibilities[i][j]] === 'x' && gameBoard.board[possibilities[i][j+1]] === 'x' && gameBoard.board[possibilities[i][j+2]] === 'x') {
-                    return gameController.player1.isWinner = true, displayController.displayWinner()
+                    return gameController.player1.isWinner = true, displayController.displayWinner(), gameOver = true
                 } else if (gameBoard.board[possibilities[i][j]] === 'o' && gameBoard.board[possibilities[i][j+1]] === 'o' && gameBoard.board[possibilities[i][j+2]] === 'o') {
-                    return gameController.player2.isWinner = true, displayController.displayWinner()
+                    return gameController.player2.isWinner = true, displayController.displayWinner(), gameOver = true
                 } 
             }
         }
 
         if (counter.turnCount === 9 && gameController.player1.isWinner === undefined && gameController.player2.isWinner === undefined) {
-            return gameController.player1.isWinner = false, gameController.player2.isWinner = false, displayController.displayWinner()
+            return gameController.player1.isWinner = false, gameController.player2.isWinner = false, displayController.displayWinner(), gameOver = true
         }
 }
 
     return {
-        checkWin
+        checkWin,
+        gameOver
     }
 })()
 
