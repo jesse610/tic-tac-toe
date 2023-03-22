@@ -11,7 +11,7 @@ const gameBoard = (() => {
 
 })();
 
-const player = (name, letter, turn) => {
+const player = (name = 'player 1', letter, turn) => {
     return {name, letter, turn}
 }
 
@@ -104,7 +104,7 @@ const displayController = (() => {
         gameType,
         updateBoard,
         displayWinner,
-        makeBoard
+        makeBoard,
     }
 })()
 
@@ -114,16 +114,29 @@ const gameController = (() => {
     const gametypeContainer = document.querySelector('.gametype')
     const formContainer = document.querySelector('.form-container')
     const form = document.querySelector('form')
+
     const player1 = player('', 'x', true)
     const player2 = player('', 'o', false)
 
+    const hide = () => {
+        formContainer.classList.remove('hidden')
+        gametypeContainer.classList.add('hidden')
+    }
 
     const gameType = (() => {
         playervsplayerBtn.addEventListener('click', function() {
-            formContainer.classList.remove('hidden')
-            gametypeContainer.classList.add('hidden')
+            hide()
+            playervsPlayer()
         })
-    })()
+
+        playervsbotBtn.addEventListener('click', function() {
+            player1.name = 'Player 1'
+            player2.name = 'bot'
+            gametypeContainer.classList.add('hidden')
+            document.querySelector('.gameboard-container').classList.remove('hidden')
+            playerVsBot()
+            })
+        })()
 
     const formAction = (() => {
         form.addEventListener('submit', function(e) {
@@ -146,21 +159,76 @@ const gameController = (() => {
         }
     }
 
-    displayController.boardPieces.forEach((square, index) => {
-        square.addEventListener('click', function() {
-            if(square.textContent === '' && Number(square.id) === index && gameController.player1.isWinner === undefined && gameController.player2.isWinner === undefined) {
-                if (player1.turn === true) {
-                    gameBoard.board[index] = player1.letter
-                } else if (player2.turn === true) {
-                    gameBoard.board[index] = player2.letter
+    const playervsPlayer = () => {
+        displayController.boardPieces.forEach((square, index) => {
+            square.addEventListener('click', function() {
+                if(square.textContent === '' && Number(square.id) === index && gameController.player1.isWinner === undefined && gameController.player2.isWinner === undefined) {
+                    if (player1.turn === true) {
+                        gameBoard.board[index] = player1.letter
+                    } else if (player2.turn === true) {
+                        gameBoard.board[index] = player2.letter
+                    }
+                    displayController.updateBoard()
+                    switchTurns()
+                    counter.countTurn()
+                    winner.checkWin()
                 }
-                displayController.updateBoard()
-                switchTurns()
-                counter.countTurn()
-                winner.checkWin()
-            }
+            })
         })
-    })
+    }
+
+    const filterBoard = (arr) => {
+       const board = arr.filter(el => el === '')
+    }   
+
+
+    const playerVsBot = () => {
+        player2.isBot = true
+
+        const botsTurn = () => {
+
+            const chooseSpot = (() => {
+                let randomNum = Math.floor(Math.random() * 9)
+
+                const getNewNum = () => {
+                    chooseSpot.randomNum = Math.floor(Math.random() * 9)
+                    return chooseSpot.randomNum
+                }
+
+                return {randomNum,
+                        getNewNum}
+            })()
+
+            if (gameController.player1.isWinner === undefined && gameController.player2.isWinner === undefined) {
+                while (player2.turn === true) {
+        
+                    if (gameBoard.board[chooseSpot.randomNum] === '') {
+                        gameBoard.board[chooseSpot.randomNum] = player2.letter
+                        displayController.updateBoard()
+                        winner.checkWin()
+                        switchTurns()
+                    } else {
+                        chooseSpot.getNewNum()
+                    }
+                }
+            }
+        }
+
+        if (player1.turn === true) {
+            displayController.boardPieces.forEach((square, index) => {
+                square.addEventListener('click', function() {
+                    if(square.textContent === '' && Number(square.id) === index && gameController.player1.isWinner === undefined && gameController.player2.isWinner === undefined) {
+                        gameBoard.board[index] = player1.letter
+                        displayController.updateBoard()
+                        switchTurns()
+                        counter.countTurn()
+                        winner.checkWin()
+                        botsTurn()
+                    }
+                })
+            })
+        } 
+    }
 
     const restartGame = () => {
         gameBoard.board = ['', '', '',
@@ -176,7 +244,8 @@ const gameController = (() => {
     return {
         player1,
         player2,
-        restartGame
+        restartGame,
+        switchTurns,
     }
 })()
 
